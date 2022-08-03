@@ -25,27 +25,26 @@ dependencies:
     sdk: flutter
     
   # Locations and Maps
-  geolocator: ^6.1.13
+  geolocator: ^9.0.1
 
   # State Managements
   flutter_bloc: ^6.1.1
 
   # Service Locator
-  get_it: ^5.0.1
+  get_it: ^7.2.0
 
   # Networks
-  dio: ^3.0.10
+  dio: ^4.0.6
 
   # Utils
-  equatable: ^1.2.5
-  meta: ^1.2.4
-  logger: ^0.9.4
-  intl: ^0.16.1
+  equatable: ^2.0.3
+  meta: ^1.7.0
+  logger: ^1.1.0
+  intl: ^0.17.0
 
   # UIs
-  flutter_svg: ^0.18.0
-  flare_flutter: ^2.0.6
-  day_night_switcher: ^0.1.1+1
+  flutter_svg: ^1.1.1+1
+  flare_flutter: ^3.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

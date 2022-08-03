@@ -1,5 +1,5 @@
-import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -32,6 +32,35 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getCurrentLocation() async {
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Location services are disabled.')),
+      );
+    }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Location permissions are denied'),
+        ));
+      }
+    } else if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Location permissions are permanently denied, we cannot request permissions.'),
+      ));
+    }
+
     final curPos = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.best,
     );
@@ -70,7 +99,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: bgColor,
         elevation: 0,
-        brightness: Brightness.light,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         leading: IconButton(
           tooltip: 'Menu',
           icon: Icon(Icons.sort, color: textColor),
