@@ -31,6 +31,30 @@ class DioHelper {
     }
   }
 
+  dynamic post(
+    dynamic url, {
+    Map<String, dynamic> headers = const <String, dynamic>{},
+    Map<String, dynamic> data,
+  }) async {
+    try {
+      final response = await dio.post(
+        url,
+        options: Options(
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            ...headers,
+          },
+        ),
+        data: {},
+      );
+
+      return _handleReturnResponse(response);
+    } on SocketException {
+      throw ServerException('No Internet Connection');
+    }
+  }
+
   dynamic _handleReturnResponse(Response response) {
     print('HttpHelper: ${response.statusCode}');
 
